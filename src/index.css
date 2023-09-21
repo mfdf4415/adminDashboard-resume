@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .input-anime {
+        animation: anime .6s normal;
+    }
+
+    @keyframes anime {
+        50% {
+            box-shadow: 0px 0px 50px -5px theme("colors.primary");
+        }
+    }
+
+}
