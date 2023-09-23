@@ -1,7 +1,6 @@
 import { MdOutlineError } from "react-icons/md";
 
 const Input = ({ iconName, type = "text", placeholder, name, formik }) => {
-  console.log(formik.errors, formik.touched);
   return (
     <>
       <div className="w-72 flex gap-3 bg-input_bg pl-6 pr-3 py-3 items-center rounded-3xl text-[#666666] focus-within:input-anime focus-within:text-primary">
