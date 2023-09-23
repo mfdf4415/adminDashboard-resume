@@ -1,27 +1,38 @@
 import img from "../../../assets/img-01.webp";
-import { TbMailFilled } from "react-icons/tb";
 import { HiMiniArrowLongRight } from "react-icons/hi2";
-import { BiSolidLockAlt } from "react-icons/bi";
+import { BiSolidLockAlt, BiSolidMobile } from "react-icons/bi";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Input from "../../../components/Input";
+import { http } from "../../../core/httpServices";
+import Spinner from "../../../components/Spinner";
+import {
+  redirect,
+  useNavigation,
+  useRouteError,
+  useSubmit,
+} from "react-router-dom";
 
 const initialValues = {
-  email: "",
+  mobile: "",
   password: "",
 };
 
 const validationSchema = yup.object({
-  email: yup.string().email("Email is unvalid").required("Email is required."),
+  mobile: yup.string().required("mobile is required."),
   password: yup.string().required("Password is required."),
 });
 
 const Login = () => {
+  const submitForm = useSubmit();
+  const { state } = useNavigation();
+  const errors = useRouteError();
+  console.log(errors)
   const onSubmit = (values) => {
-    console.log(values);
+    submitForm(values, { method: "post" });
   };
 
-  const  formik  = useFormik({
+  const formik = useFormik({
     onSubmit,
     initialValues,
     validationSchema,
@@ -34,13 +45,16 @@ const Login = () => {
       </div>
       <div className="flex-1 flex flex-col gap-8 items-center justify-center">
         <h1 className="font-extrabold text-2xl">Admin Login</h1>
-        <form onSubmit={formik.handleSubmit} className="w-full flex flex-col  items-center gap-2">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="w-full flex flex-col  items-center gap-2"
+        >
           <Input
-            name="email"
+            name="mobile"
             type="text"
-            iconName={<TbMailFilled />}
+            iconName={<BiSolidMobile />}
             formik={formik}
-            placeholder="Email"
+            placeholder="Mobile"
           />
           <Input
             name="password"
@@ -49,22 +63,43 @@ const Login = () => {
             formik={formik}
             placeholder="Password"
           />
-          <button className="w-72 mt-2 text-[#fff] transition-colors rounded-3xl px-4 py-3 font-bold outline-none bg-primary hover:bg-[#455865]">
-            LOGIN
+          <button
+            type="submit"
+            disabled={state === "submitting"}
+            className="w-72 mt-2 text-[#fff] transition-colors rounded-3xl px-4 py-3 font-bold outline-none bg-primary hover:bg-[#455865] disabled:opacity-60 disabled:hover:none"
+          >
+            {state === "submitting" ? <Spinner /> : "LOGIN"}
           </button>
-          <p className="text-[#666666] text-sm mt-3">
+          <p className="text-[#666666] text-sm">
             forgot{" "}
             <a className="text-[#9E9E9E] cursor-pointer hover:text-primary transition-colors">
               Username/Password
             </a>
           </p>
-          <a className="transition-colors text-[#666666] justify-self-end flex items-center gap-3 cursor-pointer text-sm hover:text-primary">
-            Create Your Acount <HiMiniArrowLongRight className="text-xl" />
-          </a>
         </form>
+        {errors && (
+          <div className="flex flex-col gap-2 border-danger border-[1px] p-2 rounded-md">
+            {errors.response?.data.map((error) => (
+              <p className="text-danger text-xs">{error.description}.</p>
+            ))}
+          </div>
+        )}
+        <a className="transition-colors absolute bottom-12 text-[#666666] justify-self-end flex items-center gap-3 cursor-pointer text-sm hover:text-primary">
+          Create Your Acount <HiMiniArrowLongRight className="text-xl" />
+        </a>
       </div>
     </div>
   );
 };
 
 export default Login;
+
+export const loginAction = async ({ request }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  const response = await http.post("/Users/login", data);
+  if (response.status === 200) {
+    localStorage.setItem("token", response?.data.token);
+    return redirect("/");
+  }
+};
