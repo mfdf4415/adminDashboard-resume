@@ -9,7 +9,8 @@ export default {
     colors: {
       primary: "#57B846",
       input_bg: "#E6E6E6",
-      danger: "#C80200"
+      danger: "#C80200",
+      success: "#5CB85C",
     }
   },
   plugins: [],
