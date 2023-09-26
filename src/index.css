@@ -3,29 +3,46 @@
 @tailwind utilities;
 
 @layer components {
-    .input-anime {
-        animation: anime .6s normal;
+  .input-anime {
+    animation: anime .6s normal;
+  }
+
+  .activeLink {
+    color: #fff;
+    background: rgb(4, 135, 200);
+    background: linear-gradient(90deg, rgba(4, 135, 200, 1) 0%, rgba(30, 209, 236, 1) 100%);
+  }
+
+  @keyframes anime {
+    50% {
+      box-shadow: 0px 0px 50px -5px theme("colors.primary");
+    }
+  }
+
+  .loader {
+    border-top-color: transparent;
+    -webkit-animation: spinner 1.5s linear infinite;
+    animation: spinner 1.5s linear infinite;
+  }
+
+  @-webkit-keyframes spinner {
+    0% {
+      -webkit-transform: rotate(0deg);
     }
 
-    @keyframes anime {
-        50% {
-            box-shadow: 0px 0px 50px -5px theme("colors.primary");
-        }
+    100% {
+      -webkit-transform: rotate(360deg);
     }
-    .loader {
-        border-top-color: transparent;
-        -webkit-animation: spinner 1.5s linear infinite;
-        animation: spinner 1.5s linear infinite;
-      }
-      
-      @-webkit-keyframes spinner {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
-      }
-      
-      @keyframes spinner {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
+  }
+
+  @keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 
 }

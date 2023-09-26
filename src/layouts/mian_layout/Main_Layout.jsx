@@ -1,7 +1,15 @@
+import { Outlet } from "react-router-dom";
+import SideBar from "./SideBar";
+
 const Main_Layout = () => {
   return (
-    <div>Main_Layout</div>
-  )
-}
+    <div className="flex">
+      <SideBar />
+      <div className="p-[256px]">
+        <Outlet />
+      </div>
+    </div>
+  );
+};
 
-export default Main_Layout
+export default Main_Layout;
