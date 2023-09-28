@@ -10,11 +10,11 @@ const options = [
 
 const SideBar = () => {
   return (
-    <aside className="fixed  bg-[#fff] h-screen w-64 p-5 shadow">
+    <aside className="fixed z-[1035] bg-[#fff] h-screen w-64 p-5 shadow">
       <nav>
         <ul className="flex flex-col gap-4">
           {options.map((option) => (
-            <li>
+            <li key={option.to}>
               <NavLink
                 to={option.to}
                 className={({ isActive }) =>
