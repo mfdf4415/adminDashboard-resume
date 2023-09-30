@@ -1,15 +1,16 @@
 import { CgMenuGridR } from "react-icons/cg";
-import { FaEarthAmericas, FaSun } from "react-icons/fa6";
+import { FaSun } from "react-icons/fa";
 import { BiSolidUser } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import ChangeLanguage from "../../components/ChangeLanguage";
 
 const Header = () => {
   return (
     <header className="pl-[268px] p-3 px-8 w-full fixed top-0 left-0 right-0 flex justify-between items-center">
       <div className="flex gap-8">
         <CgMenuGridR className="text-3xl text-primary cursor-pointer" />
-        <FaEarthAmericas className="text-text_bold text-2xl" />
+        <ChangeLanguage />
         <FaSun className="text-text_bold text-2xl" />
       </div>
       <UserData />
